@@ -89,3 +89,15 @@
     display: flex;
     align-items: center;
 }
+
+.contact{
+    color: blue;
+}
+
+.about{
+    color: blue;
+}
+
+.error{
+    color: red;
+}

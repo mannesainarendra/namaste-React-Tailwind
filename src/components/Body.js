@@ -11,6 +11,11 @@ const Body = () => {
 
     console.log(filterRestaurantList);
 
+
+
+    //If no dependency array => useEffect is called on every render
+    //If the dependency array is empty = [] => useEffect is called only on the first render(Just once)
+    //If the dependency array has a value => useEffect is called every time the value in the dependency array changes
     useEffect(() =>{
         fetchData();
     }, []);
