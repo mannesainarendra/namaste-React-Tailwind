@@ -1,4 +1,5 @@
 import {CARD_URL} from "../utils/constants";
+
 const RestaurantCard = (props) =>{
     const {resData} = props;
     const {name, cuisines, avgRating, costForTwo, sla} = resData.info;
@@ -15,7 +16,8 @@ const RestaurantCard = (props) =>{
                 <h4>{avgRating}</h4>
                 <h4>{costForTwo}</h4>
                 <h4>{sla.deliveryTime} minutes</h4>
-           </div>
+            </div>
+
 }
 
 export default RestaurantCard;
