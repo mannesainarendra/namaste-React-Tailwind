@@ -21,7 +21,7 @@ const Grocery = lazy(() => import("./components/Grocery"));
 const AppLayout = () => {
 
     return (
-        <div className="app">
+        <div className="scrollbar-thumb-slate-500 scrollbar-track-slate-300 scrollbar-thin scrollbar-thumb-rounded-full">
             <Header/>
             <Outlet/>
         </div>

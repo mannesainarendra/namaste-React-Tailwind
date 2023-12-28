@@ -1,4 +1,9 @@
-*{
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* *{
     box-sizing: border-box;
 }
 
@@ -100,4 +105,4 @@
 
 .error{
     color: red;
-}
+} */

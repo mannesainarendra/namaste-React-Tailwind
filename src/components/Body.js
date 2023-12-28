@@ -1,5 +1,5 @@
 import resList from "../utils/mockData";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import Shimmer from "./Shimmer";
@@ -13,7 +13,7 @@ const Body = () => {
 
     console.log(filterRestaurantList);
 
-
+    const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
     //If no dependency array => useEffect is called on every render
     //If the dependency array is empty = [] => useEffect is called only on the first render(Just once)
@@ -29,11 +29,11 @@ const Body = () => {
             );
             // console.log(response);
             const json = await response.json();
-            // console.log(json);
+            console.log(json);
             // console.log(json?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
             //Optional Chaining
-            setListOfRestaurants(json?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-            setFilterRestaurantList(json?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+            setListOfRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+            setFilterRestaurantList(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
 
     const onlineStatus = useOnlineStatus();
@@ -47,27 +47,34 @@ const Body = () => {
 
     return listOfRestaurants.length === 0 ? <Shimmer /> : (
             <div className="body">
-                <div className="search-container">
-                    <div className="search-input-container">
-                        <input type="text" className="search-input" onChange={(e)=>{
+                <div className="flex">
+                    <div className="search-input-container py-10">
+                        <input type="text" className="border-2 border-black rounded-lg px-2 py-1 mx-2" onChange={(e)=>{
                             setSearchText(e.target.value);
                         }} value={searchText}/>
-                        <button onClick={() => {
+                        <button className="bg-gray-500 px-4 py-1.5 rounded-lg mx-2 text-white font-bold" onClick={() => {
                             const filterRestaurantList = listOfRestaurants.filter((res)=> res.info.name.toLowerCase().includes(searchText.toLowerCase()));
                             setFilterRestaurantList(filterRestaurantList);
                             console.log("Button Clicked");
                         }}>Search</button>
                     </div>
-                    <button className="filter-btn" onClick={() => {
-                    const filterRestaurantList = listOfRestaurants.filter((res)=> res.info.avgRating > 4.3);
-                        setFilterRestaurantList(filterRestaurantList);
-                        console.log("Button Clicked");
-                    }}>Top rated restaurants
-                    </button>
+                    <div className="flex items-center mx-4">
+                        <button className="bg-green-300 px-4 py-1.5 rounded-lg mx-2"  onClick={() => {
+                        const filterRestaurantList = listOfRestaurants.filter((res)=> res.info.avgRating > 4.3);
+                            setFilterRestaurantList(filterRestaurantList);
+                            console.log("Button Clicked");
+                        }}>Top rated restaurants
+                        </button>
+                    </div>
+                    
                 </div>
                 
-                <div className="res-container">
-                    {filterRestaurantList.map((restaurant) => ( <Link key={restaurant.info.id} to={`/restaurant/${restaurant.info.id}`}><RestaurantCard resData={restaurant}/></Link>))}
+                <div className="flex flex-wrap gap-4 p-4">
+                    {filterRestaurantList.map((restaurant) => ( 
+                        <Link className="border-2 border-black bg-gray-100 w-[15.5%] rounded-xl" key={restaurant.info.id} to={`/restaurant/${restaurant.info.id}`}>
+                            {(restaurant.info.promoted === true)?<RestaurantCardPromoted resData={restaurant}/>:<RestaurantCard resData={restaurant}/>}
+                        </Link>
+                    ))}
                 </div>
            </div>
     )
